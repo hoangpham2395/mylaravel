@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 if (!function_exists('getConstant')) {
     function getConstant($key = '', $default = null)
@@ -31,40 +32,41 @@ if (!function_exists('getCurrentRouteName')) {
     }
 }
 
-if (!function_exists('getCurrentRouteAction')) {
-    function getCurrentRouteAction()
+if (!function_exists('getCurrentControllerAction')) {
+    function getCurrentControllerAction()
     {
         $routeAction = Route::currentRouteAction();
-        $action = end(explode('\\', $routeAction));
-        if (empty($action)) {
-            return [];
-        }
+        $arrayRouteAction = explode('\\', $routeAction);
+        $controllerAction = end($arrayRouteAction);
 
+        list($controller, $action) = explode('@', $controllerAction);
         return [
-            'controller' => data_get(explode('@', $action), 0),
-            'action' => data_get(explode('@', $action), 1),
+            'controller' => $controller,
+            'action' => $action,
         ];
     }
 }
 
 if (!function_exists('getCurrentControllerName')) {
-    function getCurrentControllerName()
+    function getCurrentControllerName($toLower = true)
     {
-        return data_get(getCurrentRouteAction(), 'controller');
+        $controller = data_get(getCurrentControllerAction(), 'controller');
+        $controller = data_get(explode('Controller', $controller), 0);
+        return $toLower ? Str::lower($controller) : $controller;
     }
 }
 
 if (!function_exists('getCurrentActionName')) {
     function getCurrentActionName()
     {
-        return data_get(getCurrentRouteAction(), 'action');
+        return data_get(getCurrentControllerAction(), 'action');
     }
 }
 
 if (!function_exists('getCurrentLocale')) {
-    function getCurrentLocale()
+    function getCurrentLocale($default = 'vi')
     {
-        return config('app.locale');
+        return config('app.locale', $default);
     }
 }
 
@@ -86,5 +88,26 @@ if (!function_exists('isSoftDeletesDefault')) {
     function isSoftDeletesDefault()
     {
         return getFileSystem('soft_deletes_default');
+    }
+}
+
+if (!function_exists('isBackend')) {
+    function isBackend()
+    {
+
+    }
+}
+
+if (!function_exists('isFrontend')) {
+    function isFrontend()
+    {
+
+    }
+}
+
+if (!function_exists('isApi')) {
+    function isApi()
+    {
+
     }
 }
