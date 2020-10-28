@@ -1,5 +1,9 @@
 <?php
 
 return [
-    'DEL_FLAG_ACTIVE' => 0,
+    'DEL_FLAG' => [
+        'FIELD' => 'del_flag',
+        'ACTIVE' => 0,
+        'DELETED' => 1,
+    ],
 ];

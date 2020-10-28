@@ -82,4 +82,5 @@ return [
         public_path('storage') => storage_path('app/public'),
     ],
 
+    'soft_deletes_default' => env('SOFT_DELETES_DEFAULT'),
 ];
