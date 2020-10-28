@@ -25,6 +25,13 @@ if (!function_exists('getFileSystem')) {
     }
 }
 
+if (!function_exists('getMessage')) {
+    function getMessage($key = null, $replace = [], $locale = null)
+    {
+        return trans('messages.' . $key, $replace, $locale);
+    }
+}
+
 if (!function_exists('getCurrentRouteName')) {
     function getCurrentRouteName()
     {
@@ -63,10 +70,18 @@ if (!function_exists('getCurrentActionName')) {
     }
 }
 
-if (!function_exists('getCurrentLocale')) {
-    function getCurrentLocale($default = 'vi')
+if (!function_exists('getLocale')) {
+    function getLocale($default = 'vi')
     {
-        return config('app.locale', $default);
+        $locale = app()->getLocale();
+        return $locale ? $locale : config('app.locale', $default);
+    }
+}
+
+if (!function_exists('setLocale')) {
+    function setLocale($locale = 'vi')
+    {
+        app()->setLocale($locale);
     }
 }
 
